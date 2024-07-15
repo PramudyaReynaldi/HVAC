@@ -10,7 +10,8 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        return view('employee');
+        $employee = new User();
+        return view('add-employee', compact('employee'));
     }
 
     public function createEmployee(Request $request)
@@ -29,6 +30,12 @@ class EmployeeController extends Controller
         $user->role = $request->input('role');
         $user->save();
 
-        return redirect('/employee')->with('success', 'Employee created successfully!');
+        return redirect('/add-employee')->with('success', 'Employee created successfully!');
     }
+
+    public function showEmployee()
+    {
+        $users = User::all();
+        return view('list-employee', compact('users'));
+    }   
 }

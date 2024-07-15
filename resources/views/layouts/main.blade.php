@@ -5,10 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>Laravel</title>
+        <title>DMS | @yield('title')</title>
 
         <link rel="stylesheet" href="{{ asset('css/sb-admin-2.min.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+        @yield('styles')
 
     </head>
     <body>
@@ -39,6 +41,8 @@
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('js/sb-admin-2.js') }}"></script>
         <script src="{{ asset('js/sweetalert2@11.js')}}"></script>
+
+        @include('partials.scripts')
 
         @yield('scripts')
     </body>
