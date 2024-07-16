@@ -22,6 +22,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,6 +31,11 @@
                                 <td>{{ $user['name'] }}</td>
                                 <td>{{ $user['email'] }}</td>
                                 <td>{{ $user['role'] }}</td>
+                                <td>
+                                    <button class="btn btn-danger" type="button" onclick="deleteEmployee({{ $user['id'] }})">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -47,6 +53,48 @@
     <script>
         $(document).ready(function() {
             $('#tableEmployee').DataTable();
+
+            window.deleteEmployee = function(id) {
+                const token = $('meta[name="csrf-token"]').attr('content');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Data that is deleted cannot be recovered!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ url('employee/delete') }}/" + id,
+                            data: {
+                                _token: token
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                    title: 'Delete Successful',
+                                    text: 'Data has been deleted.',
+                                    icon: 'success',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(() => {
+                                    window.location.href = "{{ route('list-employee') }}";
+                                });
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    title: 'An error occurred',
+                                    text: 'Unable to delete. Please try again later.',
+                                    icon: 'error',
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
     </script>
 

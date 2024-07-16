@@ -37,5 +37,17 @@ class EmployeeController extends Controller
     {
         $users = User::all();
         return view('list-employee', compact('users'));
-    }   
+    }
+
+    public function deleteEmployee($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            $user->delete();
+            return response()->json(['success' => true, 'message' => 'Employee deleted successfully!']);
+        } else {
+            return response()->json(['error' => false, 'message' => 'Employee not found!'], 404);
+        }
+    }
 }

@@ -13,7 +13,8 @@ Route::middleware(['Role:super_admin,admin'])->group(function () {
     Route::get('/list-employee', [EmployeeController::class, 'showEmployee'])->name('list-employee');
 });
 
-Route::post('employee/create', [EmployeeController::class, 'createEmployee'])->name('create-employee');
+Route::post('/employee/create', [EmployeeController::class, 'createEmployee'])->name('create-employee');
+Route::delete('/employee/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete-employee');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
