@@ -8,6 +8,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(AuthMiddleware::class);
+
+// If need a middleware for role
 Route::middleware(['Role:super_admin,admin'])->group(function () {
     Route::get('/add-employee', [EmployeeController::class, 'index'])->name('add-employee');
     Route::get('/list-employee', [EmployeeController::class, 'showEmployee'])->name('list-employee');

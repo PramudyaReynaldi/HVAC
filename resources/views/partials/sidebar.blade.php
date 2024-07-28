@@ -30,7 +30,6 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">List Employees</h6>
-                        <a class="collapse-item" href="{{ route('add-employee') }}">Add Employee</a>
                         <a class="collapse-item" href="{{ route('list-employee') }}">List Employees</a>
                     </div>
                 </div>

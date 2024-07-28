@@ -1,0 +1,9 @@
+#wrapper #content-wrapper {
+    height: 100vh;
+}
+
+@media(max-width: 991px) {
+    .btn-add-employee {
+        width: 100%;
+    }
+}
