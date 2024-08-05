@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Technicians;
 
 class CustomerController extends Controller
 {
     public function index() {
         $customers = Customer::all();
-        return view('list-customer', compact('customers'));
+        $technicians = Technicians::all();
+        return view('list-customer', compact('customers'), compact('technicians'));
     }
 
     public function create() {
@@ -26,15 +28,31 @@ class CustomerController extends Controller
         ]);
 
         $customer = new Customer();
-        $customer->id = date('dmYHi');
+        $customer->id = uuid_create();
         $customer->name = $request->input('name');
         $customer->address = $request->input('address');
         $customer->phone = $request->input('phone');
         $customer->email = $request->input('email');
         $customer->purpose = $request->input('purpose');
+        $customer->techID = "";
+        $customer->techName = "";
         $customer->save();
 
         return redirect('/add-customer')->with('success', 'Customer created successfully!');
+    }
+
+    public function updateTech(Request $request, $id) {
+        $customer = Customer::find($id);
+        $technician = Technicians::find($request->input('techid'));
+
+        if ($customer && $technician) {
+            $customer->techID = $request->input('techid');
+            $customer->techName = $technician->name;
+            $customer->save();
+            return response()->json(['success' => true, 'message' => 'Technician choosing successfully!']);
+        } else {
+            return response()->json(['error' => false, 'message' => 'Customer not found!'], 404);
+        }
     }
 
     public function destroy($id) {
