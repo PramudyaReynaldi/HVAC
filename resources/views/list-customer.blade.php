@@ -5,6 +5,10 @@
 </head>
 <body>
     <h1>Customer List</h1>
+    @if (session('success'))
+        <p>{{ session('success') }}</p>
+    @endif
+    <a href="{{ route('customer.create') }}">Add Customer</a>
     <table>
         <thead>
             <tr>
@@ -13,6 +17,7 @@
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Purpose</th>
+                <th>Teknisi</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,8 +29,21 @@
                 <td>{{ $customer->phone }}</td>
                 <td>{{ $customer->email }}</td>
                 <td>{{ $customer->purpose }}</td>
+                <td>{{ $customer->techName }}</td>
                 <td>
-                    <form action="{{ route('customer.destroyCustomer', $customer->id) }}" method="POST">
+                    <form action="{{ route('customer.updateTech', $customer->id)}}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <select name="techid" id="techid">
+                            @foreach($technicians as $technician)
+                            <option value="{{$technician->id}}">{{$technician->name}}</option>
+                            @endforeach
+                        </select>
+                        <button type="submit">Save</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{{ route('customer.destroy', $customer->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit">Delete</button>
